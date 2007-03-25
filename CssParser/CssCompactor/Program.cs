@@ -8,8 +8,7 @@ namespace BuildTools.CssCompactor
 		{
 			try
 			{
-				string file = @"A:\Projects\Examples\PhotoLib.css";
-				//file = @"A:\Projects\Examples\CommonStyles.css";
+				string file = @"A:\Projects\Examples\Example.css";
 
 				CssParser parser = new CssParser(file);
 
