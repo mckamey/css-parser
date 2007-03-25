@@ -1,4 +1,10 @@
-﻿using System.Reflection;
+﻿/*------------------------------------------------------*\
+	CssCompactor is open-source under The MIT License
+	http://www.opensource.org/licenses/mit-license.php
+	Copyright (c) 2007 Stephen M. McKamey
+\*------------------------------------------------------*/
+
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -9,8 +15,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CssCompactor")]
-[assembly: AssemblyCopyright("Copyright ©2007")]
+[assembly: AssemblyProduct("BuildTools CssCompactor")]
+[assembly: AssemblyCopyright("Copyright ©2007 Stephen M. McKamey")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -22,12 +28,4 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("577cedd7-a3f7-4592-848a-57d4e6ed060d")]
 
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-[assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
