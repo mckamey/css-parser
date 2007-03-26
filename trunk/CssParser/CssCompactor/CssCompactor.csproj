@@ -38,6 +38,7 @@
     <Compile Include="Collections\TrieNode.cs" />
     <Compile Include="CssCompactor\CssParser.cs" />
     <Compile Include="CssCompactor\CssSyntax.cs" />
+    <Compile Include="IO\ArgsTrie.cs" />
     <Compile Include="IO\FilterTrie.cs" />
     <Compile Include="IO\LineReader.cs" />
     <Compile Include="ParseExceptions.cs" />
