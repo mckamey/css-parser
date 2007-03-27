@@ -19,14 +19,14 @@ namespace BuildTools.CssCompactor
 		#region Constants
 
 		private const string Help =
-			"Cascading StyleSheet compactor and syntax validator {0}\r\n\r\n"+
-			"CssCompactor /IN:file [ /OUT:file ] [ /COPY:copyright ] [ /TIME:timeFormat ] [ /P ]\r\n\r\n"+
+			"Cascading StyleSheet compactor and syntax validator (version {0})\r\n\r\n"+
+			"CssCompactor /IN:file [ /OUT:file ] [ /INFO:copyright ] [ /TIME:timeFormat ] [ /P ]\r\n\r\n"+
 			"\t/IN:\tInput File Path\r\n"+
 			"\t/OUT:\tOutput File Path\r\n"+
-			"\t/COPY:\tCopyright label\r\n"+
+			"\t/INFO:\tCopyright label\r\n"+
 			"\t/TIME:\tTimeStamp Format\r\n"+
-			"\t/P\tPretty-Print the output\r\n\r\n"+
-			"e.g. CssCompactor /IN:myFile.css /OUT:compacted/myFile.css /COPY:\"(c)2007 My CSS\" /TIME:\"'Compacted 'yyyy-MM-dd @ HH:mm\"";
+			"\t/P\tPretty-Print the output (default is compact)\r\n\r\n"+
+			"e.g. CssCompactor /IN:myFile.css /OUT:compacted/myFile.css /INFO:\"(c)2007 My CSS\" /TIME:\"'Compacted 'yyyy-MM-dd @ HH:mm\"";
 
 		public enum ArgType
 		{
@@ -42,7 +42,7 @@ namespace BuildTools.CssCompactor
 			new ArgsMap<ArgType>[] {
 				new ArgsMap<ArgType>("/IN:", ArgType.InputFile),
 				new ArgsMap<ArgType>("/OUT:", ArgType.OutputFile),
-				new ArgsMap<ArgType>("/COPY:", ArgType.Copyright),
+				new ArgsMap<ArgType>("/INFO:", ArgType.Copyright),
 				new ArgsMap<ArgType>("/TIME:", ArgType.TimeStamp),
 				new ArgsMap<ArgType>("/P", ArgType.PrettyPrint),
 			});
@@ -60,7 +60,7 @@ namespace BuildTools.CssCompactor
 				string copyright = argList.ContainsKey(ArgType.Copyright) ? argList[ArgType.Copyright] : null;
 				string timeStamp = argList.ContainsKey(ArgType.TimeStamp) ? argList[ArgType.TimeStamp] : null;
 				CssOptions options = argList.ContainsKey(ArgType.PrettyPrint) ?
-					CssOptions.PrettyPrint : CssOptions.None;
+					CssOptions.PrettyPrint|CssOptions.Overwrite : CssOptions.Overwrite;
 
 				if (String.IsNullOrEmpty(inputFile) || !File.Exists(inputFile))
 				{
@@ -68,13 +68,13 @@ namespace BuildTools.CssCompactor
 					return;
 				}
 
-				TextWriter output = String.IsNullOrEmpty(outputFile) ?
-					Console.Out : File.CreateText(outputFile);
-
-				using (output)
+				if (String.IsNullOrEmpty(outputFile) || !File.Exists(outputFile))
 				{
-					CssParser parser = new CssParser(inputFile);
-					parser.Write(output, options);
+					CssCompactor.Compact(inputFile, null, Console.Out, copyright, timeStamp, options);
+				}
+				else
+				{
+					CssCompactor.Compact(inputFile, outputFile, copyright, timeStamp, options);
 				}
 			}
 			catch (Exception ex)

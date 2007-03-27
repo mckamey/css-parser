@@ -65,8 +65,10 @@ namespace BuildTools.IO
 			{
 				TrieNode<char, TValue> node = this;
 
+				string prefix = caseSensitive ? map.Prefix : map.Prefix.ToLowerInvariant();
+
 				// build out the path for StartToken
-				foreach (char ch in map.Prefix.ToLowerInvariant())
+				foreach (char ch in prefix)
 				{
 					if (!node.Contains(ch))
 					{
