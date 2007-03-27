@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BuildTools CssCompactor")]
+[assembly: AssemblyProduct("BuildTools")]
 [assembly: AssemblyCopyright("Copyright ©2007 Stephen M. McKamey")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
