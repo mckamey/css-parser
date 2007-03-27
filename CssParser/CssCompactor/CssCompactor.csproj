@@ -33,9 +33,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\TrieNode.cs" />
+    <Compile Include="CssCompactor\CssCompactor.cs" />
     <Compile Include="CssCompactor\CssParser.cs" />
     <Compile Include="CssCompactor\CssSyntax.cs" />
     <Compile Include="IO\ArgsTrie.cs" />
