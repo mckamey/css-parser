@@ -68,13 +68,29 @@ namespace BuildTools.CssCompactor
 					return;
 				}
 
-				if (String.IsNullOrEmpty(outputFile) || !File.Exists(outputFile))
+				List<ParseException> errors;
+				if (String.IsNullOrEmpty(outputFile))
 				{
-					CssCompactor.Compact(inputFile, null, Console.Out, copyright, timeStamp, options);
+					errors = CssCompactor.Compact(inputFile, null, Console.Out, copyright, timeStamp, options);
 				}
 				else
 				{
-					CssCompactor.Compact(inputFile, outputFile, copyright, timeStamp, options);
+					errors = CssCompactor.Compact(inputFile, outputFile, copyright, timeStamp, options);
+				}
+
+				if (errors.Count > 0)
+				{
+					foreach (ParseException ex in errors)
+					{
+						Console.Error.WriteLine(ex.GetCompilerMessage());
+					}
+				}
+				else
+				{
+					FileInfo inputInfo = new FileInfo(inputFile);
+					FileInfo outputInfo = new FileInfo(outputFile);
+
+					Console.WriteLine("Compacted \"{0}\" by {1:P1}", inputInfo.Name, (Decimal.One - (((decimal)outputInfo.Length)/((decimal)inputInfo.Length))));
 				}
 			}
 			catch (Exception ex)
