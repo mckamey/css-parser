@@ -1,9 +1,9 @@
-/*------------------------------------------------------*\
+/*-----------------------------------------------------------------------*\
 	Copyright (c) 2007 Stephen M. McKamey
 
-	CssCompactor is open-source under The MIT License
+	CssCompactor is distributed under the terms of an MIT-style license
 	http://www.opensource.org/licenses/mit-license.php
-\*------------------------------------------------------*/
+\*-----------------------------------------------------------------------*/
 
 using System;
 using System.IO;
@@ -30,7 +30,7 @@ namespace BuildTools.CssCompactor
 
 		public enum ArgType
 		{
-			None,// need a default value
+			Empty,// need a default value
 			InputFile,
 			OutputFile,
 			Copyright,
@@ -59,7 +59,8 @@ namespace BuildTools.CssCompactor
 				string outputFile = argList.ContainsKey(ArgType.OutputFile) ? argList[ArgType.OutputFile] : null;
 				string copyright = argList.ContainsKey(ArgType.Copyright) ? argList[ArgType.Copyright] : null;
 				string timeStamp = argList.ContainsKey(ArgType.TimeStamp) ? argList[ArgType.TimeStamp] : null;
-				bool prettyPrint = argList.ContainsKey(ArgType.PrettyPrint);
+				CssOptions options = argList.ContainsKey(ArgType.PrettyPrint) ?
+					CssOptions.PrettyPrint : CssOptions.None;
 
 				if (String.IsNullOrEmpty(inputFile) || !File.Exists(inputFile))
 				{
@@ -73,7 +74,7 @@ namespace BuildTools.CssCompactor
 				using (output)
 				{
 					CssParser parser = new CssParser(inputFile);
-					parser.Write(output, prettyPrint ? CssOptions.PrettyPrint : CssOptions.None);
+					parser.Write(output, options);
 				}
 			}
 			catch (Exception ex)
