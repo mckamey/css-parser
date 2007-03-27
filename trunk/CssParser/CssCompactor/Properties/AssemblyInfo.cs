@@ -1,8 +1,9 @@
-﻿/*------------------------------------------------------*\
-	CssCompactor is open-source under The MIT License
-	http://www.opensource.org/licenses/mit-license.php
+﻿/*-----------------------------------------------------------------------*\
 	Copyright (c) 2007 Stephen M. McKamey
-\*------------------------------------------------------*/
+
+	CssCompactor is distributed under the terms of an MIT-style license
+	http://www.opensource.org/licenses/mit-license.php
+\*-----------------------------------------------------------------------*/
 
 using System.Reflection;
 using System.Runtime.CompilerServices;
