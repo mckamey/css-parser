@@ -37,7 +37,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("BuildTools")]
-[assembly: AssemblyCopyright("Copyright © 2007 Stephen M. McKamey. All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright © 2006-2007 Stephen M. McKamey. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
