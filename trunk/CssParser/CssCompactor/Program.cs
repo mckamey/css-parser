@@ -51,7 +51,7 @@ namespace BuildTools.CssCompactor
 			"\t/P\tPretty-Print the output (default is compact)\r\n\r\n"+
 			"e.g. CssCompactor /IN:myFile.css /OUT:compacted/myFile.css /INFO:\"(c)2007 My CSS\" /TIME:\"'Compacted 'yyyy-MM-dd @ HH:mm\"";
 
-		public enum ArgType
+		private enum ArgType
 		{
 			Empty,// need a default value
 			InputFile,
@@ -67,23 +67,25 @@ namespace BuildTools.CssCompactor
 				new ArgsMap<ArgType>("/OUT:", ArgType.OutputFile),
 				new ArgsMap<ArgType>("/INFO:", ArgType.Copyright),
 				new ArgsMap<ArgType>("/TIME:", ArgType.TimeStamp),
-				new ArgsMap<ArgType>("/P", ArgType.PrettyPrint),
+				new ArgsMap<ArgType>("/P", ArgType.PrettyPrint)
 			});
 
 		#endregion Constants
+
+		#region Program Entry
 
 		static void Main(string[] args)
 		{
 			try
 			{
-				Dictionary<ArgType,string> argList = Mapping.MapAndTrimPrefixes(args);
+				Dictionary<ArgType, string> argList = Mapping.MapAndTrimPrefixes(args);
 
 				string inputFile = argList.ContainsKey(ArgType.InputFile) ? argList[ArgType.InputFile] : null;
 				string outputFile = argList.ContainsKey(ArgType.OutputFile) ? argList[ArgType.OutputFile] : null;
 				string copyright = argList.ContainsKey(ArgType.Copyright) ? argList[ArgType.Copyright] : null;
 				string timeStamp = argList.ContainsKey(ArgType.TimeStamp) ? argList[ArgType.TimeStamp] : null;
-				CssOptions options = argList.ContainsKey(ArgType.PrettyPrint) ?
-					CssOptions.PrettyPrint|CssOptions.Overwrite : CssOptions.Overwrite;
+				CssCompactor.Options options = argList.ContainsKey(ArgType.PrettyPrint) ?
+					CssCompactor.Options.PrettyPrint|CssCompactor.Options.Overwrite : CssCompactor.Options.Overwrite;
 
 				if (String.IsNullOrEmpty(inputFile) || !File.Exists(inputFile))
 				{
@@ -116,10 +118,16 @@ namespace BuildTools.CssCompactor
 					Console.WriteLine("Compacted \"{0}\" by {1:P1}", inputInfo.Name, (Decimal.One - (((decimal)outputInfo.Length)/((decimal)inputInfo.Length))));
 				}
 			}
+			catch (ParseException ex)
+			{
+				Console.Error.WriteLine(ex.GetCompilerMessage());
+			}
 			catch (Exception ex)
 			{
 				Console.Error.WriteLine(ex);
 			}
 		}
+
+		#endregion Program Entry
 	}
 }
