@@ -49,6 +49,7 @@ namespace BuildTools.CssCompactor
 			"\t/INFO:\tCopyright label\r\n"+
 			"\t/TIME:\tTimeStamp Format\r\n"+
 			"\t/P\tPretty-Print the output (default is compact)\r\n\r\n"+
+			"\t/WARNING\tSyntax issues reported as warnings\r\n"+
 			"e.g. CssCompactor /IN:myFile.css /OUT:compacted/myFile.css /INFO:\"(c)2007 My CSS\" /TIME:\"'Compacted 'yyyy-MM-dd @ HH:mm\"";
 
 		private enum ArgType
@@ -58,7 +59,8 @@ namespace BuildTools.CssCompactor
 			OutputFile,
 			Copyright,
 			TimeStamp,
-			PrettyPrint
+			PrettyPrint,
+			Warning
 		}
 
 		private static readonly ArgsTrie<ArgType> Mapping = new ArgsTrie<ArgType>(
@@ -67,7 +69,8 @@ namespace BuildTools.CssCompactor
 				new ArgsMap<ArgType>("/OUT:", ArgType.OutputFile),
 				new ArgsMap<ArgType>("/INFO:", ArgType.Copyright),
 				new ArgsMap<ArgType>("/TIME:", ArgType.TimeStamp),
-				new ArgsMap<ArgType>("/P", ArgType.PrettyPrint)
+				new ArgsMap<ArgType>("/P", ArgType.PrettyPrint),
+				new ArgsMap<ArgType>("/WARNING", ArgType.Warning)
 			});
 
 		#endregion Constants
@@ -86,6 +89,7 @@ namespace BuildTools.CssCompactor
 				string timeStamp = argList.ContainsKey(ArgType.TimeStamp) ? argList[ArgType.TimeStamp] : null;
 				CssCompactor.Options options = argList.ContainsKey(ArgType.PrettyPrint) ?
 					CssCompactor.Options.PrettyPrint|CssCompactor.Options.Overwrite : CssCompactor.Options.Overwrite;
+				bool warning = argList.ContainsKey(ArgType.Warning);
 
 				if (String.IsNullOrEmpty(inputFile) || !File.Exists(inputFile))
 				{
@@ -107,7 +111,14 @@ namespace BuildTools.CssCompactor
 				{
 					foreach (ParseException ex in errors)
 					{
-						Console.Error.WriteLine(ex.GetCompilerMessage());
+						if (warning)
+						{
+							Console.Error.WriteLine(ex.GetCompilerMessage(warning));
+						}
+						else
+						{
+							Console.Error.WriteLine(ex.GetCompilerMessage());
+						}
 					}
 				}
 				else
