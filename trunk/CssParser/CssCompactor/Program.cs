@@ -133,7 +133,7 @@ namespace BuildTools.CssCompactor
 						}
 					}
 				}
-				else
+				else if (!syntaxOnly)
 				{
 					FileInfo inputInfo = new FileInfo(inputFile);
 					FileInfo outputInfo = new FileInfo(outputFile);
