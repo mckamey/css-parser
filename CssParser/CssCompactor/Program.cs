@@ -106,7 +106,7 @@ namespace BuildTools.CssCompactor
 				{
 					if (!String.IsNullOrEmpty(outputFile))
 					{
-						Console.Error.WriteLine("Cannot specifiy an output file when using the /SYNTAX switch");
+						Console.Error.WriteLine("Cannot specifiy an output file when using /SYNTAX");
 					}
 					errors = CssCompactor.Compact(inputFile, null, TextWriter.Null, copyright, timeStamp, options);
 				}
