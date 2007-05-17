@@ -43,13 +43,14 @@ namespace BuildTools.CssCompactor
 
 		private const string Help =
 			"Cascading StyleSheet compactor and syntax validator (version {0})\r\n\r\n"+
-			"CssCompactor /IN:file [ /OUT:file ] [ /INFO:copyright ] [ /TIME:timeFormat ] [ /P ]\r\n\r\n"+
-			"\t/IN:\tInput File Path\r\n"+
-			"\t/OUT:\tOutput File Path\r\n"+
-			"\t/INFO:\tCopyright label\r\n"+
-			"\t/TIME:\tTimeStamp Format\r\n"+
-			"\t/P\tPretty-Print the output (default is compact)\r\n\r\n"+
+			"CssCompactor /IN:file [ /OUT:file ] [ /INFO:copyright ] [ /TIME:timeFormat ] [ /SYNTAX ] [ /WARNING ] [ /PRETTY ]\r\n\r\n"+
+			"\t/IN:\t\tInput File Path\r\n"+
+			"\t/OUT:\t\tOutput File Path\r\n"+
+			"\t/INFO:\t\tCopyright label\r\n"+
+			"\t/TIME:\t\tTimeStamp Format\r\n"+
+			"\t/SYNTAX\t\tSyntax checking only (no output)\r\n"+
 			"\t/WARNING\tSyntax issues reported as warnings\r\n"+
+			"\t/PRETTY\t\tPretty-Print the output (default is compact)\r\n\r\n"+
 			"e.g. CssCompactor /IN:myFile.css /OUT:compacted/myFile.css /INFO:\"(c)2007 My CSS\" /TIME:\"'Compacted 'yyyy-MM-dd @ HH:mm\"";
 
 		private enum ArgType
@@ -60,6 +61,7 @@ namespace BuildTools.CssCompactor
 			Copyright,
 			TimeStamp,
 			PrettyPrint,
+			SyntaxOnly,
 			Warning
 		}
 
@@ -69,8 +71,9 @@ namespace BuildTools.CssCompactor
 				new ArgsMap<ArgType>("/OUT:", ArgType.OutputFile),
 				new ArgsMap<ArgType>("/INFO:", ArgType.Copyright),
 				new ArgsMap<ArgType>("/TIME:", ArgType.TimeStamp),
-				new ArgsMap<ArgType>("/P", ArgType.PrettyPrint),
-				new ArgsMap<ArgType>("/WARNING", ArgType.Warning)
+				new ArgsMap<ArgType>("/SYNTAX", ArgType.SyntaxOnly),
+				new ArgsMap<ArgType>("/WARNING", ArgType.Warning),
+				new ArgsMap<ArgType>("/PRETTY", ArgType.PrettyPrint)
 			});
 
 		#endregion Constants
@@ -87,9 +90,10 @@ namespace BuildTools.CssCompactor
 				string outputFile = argList.ContainsKey(ArgType.OutputFile) ? argList[ArgType.OutputFile] : null;
 				string copyright = argList.ContainsKey(ArgType.Copyright) ? argList[ArgType.Copyright] : null;
 				string timeStamp = argList.ContainsKey(ArgType.TimeStamp) ? argList[ArgType.TimeStamp] : null;
+				bool syntaxOnly = argList.ContainsKey(ArgType.SyntaxOnly);
+				bool warning = argList.ContainsKey(ArgType.Warning);
 				CssCompactor.Options options = argList.ContainsKey(ArgType.PrettyPrint) ?
 					CssCompactor.Options.PrettyPrint|CssCompactor.Options.Overwrite : CssCompactor.Options.Overwrite;
-				bool warning = argList.ContainsKey(ArgType.Warning);
 
 				if (String.IsNullOrEmpty(inputFile) || !File.Exists(inputFile))
 				{
@@ -98,7 +102,15 @@ namespace BuildTools.CssCompactor
 				}
 
 				List<ParseException> errors;
-				if (String.IsNullOrEmpty(outputFile))
+				if (syntaxOnly)
+				{
+					if (!String.IsNullOrEmpty(outputFile))
+					{
+						Console.Error.WriteLine("Cannot specifiy an output file when using the /SYNTAX switch");
+					}
+					errors = CssCompactor.Compact(inputFile, null, TextWriter.Null, copyright, timeStamp, options);
+				}
+				else if (String.IsNullOrEmpty(outputFile))
 				{
 					errors = CssCompactor.Compact(inputFile, null, Console.Out, copyright, timeStamp, options);
 				}
