@@ -71,7 +71,7 @@ namespace BuildTools.IO
 		#region Constants
 
 		private const int DefaultTrieWidth = 3;
-		private bool caseSensitive;
+		private readonly bool CaseSensitive;
 
 		#endregion Constants
 
@@ -81,7 +81,7 @@ namespace BuildTools.IO
 
 		public ArgsTrie(IEnumerable<ArgsMap<TValue>> mappings, bool caseSensitive) : base(DefaultTrieWidth)
 		{
-			this.caseSensitive = caseSensitive;
+			this.CaseSensitive = caseSensitive;
 
 			// load trie
 			foreach (ArgsMap<TValue> map in mappings)
@@ -127,7 +127,7 @@ namespace BuildTools.IO
 				// walk each char of arg until match prefix
 				for (int i=0; i<arg.Length; i++)
 				{
-					if (this.caseSensitive)
+					if (this.CaseSensitive)
 					{
 						node = node[arg[i]];
 					}
