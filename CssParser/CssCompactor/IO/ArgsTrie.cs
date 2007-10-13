@@ -95,12 +95,10 @@ namespace BuildTools.IO
 				{
 					if (!node.Contains(ch))
 					{
-						node[ch] = node = new TrieNode<char, TValue>(DefaultTrieWidth);
+						node[ch] = new TrieNode<char, TValue>(DefaultTrieWidth);
 					}
-					else
-					{
-						node = (TrieNode<char, TValue>)node[ch];
-					}
+
+					node = (TrieNode<char, TValue>)node[ch];
 				}
 
 				// at the end of the Prefix is the Index
