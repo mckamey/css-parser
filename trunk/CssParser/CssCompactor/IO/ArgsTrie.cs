@@ -95,11 +95,11 @@ namespace BuildTools.IO
 				{
 					if (!node.Contains(ch))
 					{
-						node = node[ch] = new TrieNode<char, TValue>(DefaultTrieWidth);
+						node[ch] = node = new TrieNode<char, TValue>(DefaultTrieWidth);
 					}
 					else
 					{
-						node = node[ch];
+						node = (TrieNode<char, TValue>)node[ch];
 					}
 				}
 
@@ -122,7 +122,7 @@ namespace BuildTools.IO
 			Dictionary<TValue, string> map = new Dictionary<TValue, string>(args.Length);
 			foreach (string arg in args)
 			{
-				TrieNode<char, TValue> node = this;
+				ITrieNode<char, TValue> node = this;
 
 				// walk each char of arg until match prefix
 				for (int i=0; i<arg.Length; i++)
