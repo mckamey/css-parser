@@ -79,7 +79,8 @@ namespace JsonFx.BuildTools.IO
 
 		public ArgsTrie(IEnumerable<ArgsMap<TValue>> mappings) : this(mappings, false) { }
 
-		public ArgsTrie(IEnumerable<ArgsMap<TValue>> mappings, bool caseSensitive) : base(DefaultTrieWidth)
+		public ArgsTrie(IEnumerable<ArgsMap<TValue>> mappings, bool caseSensitive)
+			: base(DefaultTrieWidth)
 		{
 			this.CaseSensitive = caseSensitive;
 
