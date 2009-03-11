@@ -34,15 +34,13 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("CssCompactor")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BuildTools")]
+[assembly: AssemblyProduct("JsonFx.NET")]
 [assembly: AssemblyCopyright("Copyright © 2006-2009 Stephen M. McKamey. All rights reserved.")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-
-[assembly: ComVisible(false)]
+[assembly: AssemblyCompany("http://jsonfx.net")]
+#if DEBUG
+[assembly: AssemblyConfiguration("Debug")]
+#else
+[assembly: AssemblyConfiguration("Release")]
+#endif
 
 [assembly: Guid("577cedd7-a3f7-4592-848a-57d4e6ed060d")]
-
-[assembly: AssemblyFileVersion("1.0.0.0")]
